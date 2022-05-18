@@ -13,7 +13,7 @@ pipeline {
       stage("Build image") {
             steps {
                 script {
-                    myapp = docker.build("shubhamkrjain/hellowhale:${env.BUILD_ID}")
+                    myapp = docker.build("shubhamkrjain/hellowhale:${env.BUILD_ID}{env.GIT_COMMIT}")
                 }
             }
         }
@@ -24,7 +24,7 @@ pipeline {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
                             myapp.push("latest")
                             myapp.push("${env.BUILD_ID}")
-                            myapp.push("${$env.GIT_COMMIT}")
+                            myapp.push("${env.GIT_COMMIT}")
                             
                     }
                 }
